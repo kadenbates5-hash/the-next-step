@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Next Step - AI Agency Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">The Next Step</div>
+        <nav>
+            <a href="#crm" class="active"><i class="fas fa-users"></i> CRM Tracker</a>
+            <a href="#generator"><i class="fas fa-magic"></i> Site Gen</a>
+            <a href="#agent"><i class="fas fa-phone"></i> Phone Agent</a>
+            <a href="#emails"><i class="fas fa-envelope"></i> Templates</a>
+        </nav>
+    </div>
+    <main>
+        <section id="crm" class="active">
+            <h1>CRM Tracker</h1>
+            <div class="controls">
+                <button onclick="addCompany()"><i class="fas fa-plus"></i> Add Company</button>
+                <button onclick="exportCSV()"><i class="fas fa-download"></i> Export CSV</button>
+            </div>
+            <table id="crmTable">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Niche</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="crmBody"></tbody>
+            </table>
+        </section>
+        
+        <section id="generator">
+            <h1>Instant Website Generator</h1>
+            <div class="gen-form">
+                <input type="text" id="genName" placeholder="Business Name">
+                <select id="genNiche">
+                    <option value="law">Law Firm</option>
+                    <option value="dental">Dental Office</option>
+                    <option value="hvac">HVAC/Home Services</option>
+                </select>
+                <input type="text" id="genCity" placeholder="City">
+                <button onclick="generatePreview()">Generate Preview</button>
+            </div>
+            <div id="previewArea" class="preview-card"></div>
+        </section>
+
+        <section id="agent">
+            <h1>AI Phone Agent Demo</h1>
+            <div class="agent-container">
+                <div class="chat-window" id="chatWindow">
+                    <div class="message bot">Hello! I'm your AI Receptionist demo. How can I help your business today?</div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="userInput" placeholder="Type a message...">
+                    <button onclick="sendMessage()">Send</button>
+                </div>
+                <div class="agent-links">
+                    <h3>Connect to Real Voice AI:</h3>
+                    <a href="https://bland.ai" target="_blank">Bland.ai</a>
+                    <a href="https://vapi.ai" target="_blank">Vapi.ai</a>
+                    <a href="https://trillet.ai" target="_blank">Trillet.ai</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="emails">
+            <h1>Email Templates</h1>
+            <div class="template-grid" id="templateGrid"></div>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
