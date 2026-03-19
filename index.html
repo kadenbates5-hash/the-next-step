@@ -9,74 +9,221 @@
 </head>
 <body>
     <div class="sidebar">
-        <div class="logo">The Next Step</div>
+        <div class="logo"><i class="fas fa-rocket"></i> The Next Step</div>
         <nav>
-            <a href="#crm" class="active"><i class="fas fa-users"></i> CRM Tracker</a>
-            <a href="#generator"><i class="fas fa-magic"></i> Site Gen</a>
-            <a href="#agent"><i class="fas fa-phone"></i> Phone Agent</a>
-            <a href="#emails"><i class="fas fa-envelope"></i> Templates</a>
+            <a href="#crm" class="active" onclick="showSection('crm',this)"><i class="fas fa-users"></i> CRM Tracker</a>
+            <a href="#generator" onclick="showSection('generator',this)"><i class="fas fa-magic"></i> Site Generator</a>
+            <a href="#agent" onclick="showSection('agent',this)"><i class="fas fa-phone"></i> Phone Agent</a>
+            <a href="#emails" onclick="showSection('emails',this)"><i class="fas fa-envelope"></i> Email Templates</a>
         </nav>
+        <div class="sidebar-footer">Built for closers.</div>
     </div>
     <main>
         <section id="crm" class="active">
-            <h1>CRM Tracker</h1>
+            <div class="section-header">
+                <h1><i class="fas fa-users"></i> CRM Tracker</h1>
+                <p>Track every company you need to reach out to.</p>
+            </div>
             <div class="controls">
                 <button onclick="addCompany()"><i class="fas fa-plus"></i> Add Company</button>
-                <button onclick="exportCSV()"><i class="fas fa-download"></i> Export CSV</button>
+                <button onclick="exportCSV()" class="secondary"><i class="fas fa-download"></i> Export CSV</button>
+                <select id="filterStatus" onchange="filterTable()">
+                    <option value="">All Statuses</option>
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Call Booked">Call Booked</option>
+                    <option value="Proposal Sent">Proposal Sent</option>
+                    <option value="Closed Won">Closed Won</option>
+                    <option value="Not Interested">Not Interested</option>
+                </select>
+                <select id="filterNiche" onchange="filterTable()">
+                    <option value="">All Niches</option>
+                    <option value="Law Firm">Law Firm</option>
+                    <option value="Dental">Dental</option>
+                    <option value="HVAC">HVAC</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Auto Shop">Auto Shop</option>
+                    <option value="Med Spa">Med Spa</option>
+                    <option value="Chiro">Chiro</option>
+                    <option value="Roofing">Roofing</option>
+                    <option value="Plumbing">Plumbing</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
+            <div class="table-wrap">
             <table id="crmTable">
                 <thead>
                     <tr>
                         <th>Company</th>
                         <th>Niche</th>
-                        <th>Contact</th>
+                        <th>Contact Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
                         <th>Status</th>
+                        <th>Notes</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="crmBody"></tbody>
             </table>
-        </section>
-        
-        <section id="generator">
-            <h1>Instant Website Generator</h1>
-            <div class="gen-form">
-                <input type="text" id="genName" placeholder="Business Name">
-                <select id="genNiche">
-                    <option value="law">Law Firm</option>
-                    <option value="dental">Dental Office</option>
-                    <option value="hvac">HVAC/Home Services</option>
-                </select>
-                <input type="text" id="genCity" placeholder="City">
-                <button onclick="generatePreview()">Generate Preview</button>
             </div>
-            <div id="previewArea" class="preview-card"></div>
+        </section>
+
+        <section id="generator">
+            <div class="section-header">
+                <h1><i class="fas fa-magic"></i> Website Generator</h1>
+                <p>Generate a client-ready website on the fly in seconds.</p>
+            </div>
+            <div class="gen-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Business Name</label>
+                        <input type="text" id="bizName" placeholder="e.g. Smith Law Firm">
+                    </div>
+                    <div class="form-group">
+                        <label>Niche</label>
+                        <select id="bizNiche">
+                            <option value="law">Law Firm</option>
+                            <option value="dental">Dental Office</option>
+                            <option value="hvac">HVAC Company</option>
+                            <option value="realestate">Real Estate</option>
+                            <option value="medspa">Med Spa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="bizPhone" placeholder="(414) 555-1234">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="bizCity" placeholder="Milwaukee">
+                    </div>
+                </div>
+                <button onclick="generateSite()"><i class="fas fa-bolt"></i> Generate Website</button>
+            </div>
+            <div id="sitePreview" class="site-preview"></div>
         </section>
 
         <section id="agent">
-            <h1>AI Phone Agent Demo</h1>
-            <div class="agent-container">
-                <div class="chat-window" id="chatWindow">
-                    <div class="message bot">Hello! I'm your AI Receptionist demo. How can I help your business today?</div>
+            <div class="section-header">
+                <h1><i class="fas fa-phone"></i> AI Phone Agent</h1>
+                <p>Deploy a 24/7 AI receptionist that books appointments and captures leads.</p>
+            </div>
+            <div class="agent-grid">
+                <div class="agent-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Live Chat Demo</h3>
+                    <p>Test how your AI receptionist responds to client inquiries.</p>
+                    <div class="chat-box" id="chatBox">
+                        <div class="chat-msg bot">Hi! I'm your AI receptionist. How can I help you today?</div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChat()">
+                        <button onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+                    </div>
                 </div>
-                <div class="chat-input">
-                    <input type="text" id="userInput" placeholder="Type a message...">
-                    <button onclick="sendMessage()">Send</button>
+                <div class="agent-card">
+                    <i class="fas fa-plug"></i>
+                    <h3>Connect Real Voice AI</h3>
+                    <p>Hook up a real AI phone line using one of these platforms:</p>
+                    <div class="platform-links">
+                        <a href="https://www.bland.ai" target="_blank" class="platform-btn"><i class="fas fa-phone-alt"></i> Bland.ai</a>
+                        <a href="https://vapi.ai" target="_blank" class="platform-btn"><i class="fas fa-microphone"></i> Vapi.ai</a>
+                        <a href="https://trillet.com" target="_blank" class="platform-btn"><i class="fas fa-headset"></i> Trillet</a>
+                        <a href="https://synthflow.ai" target="_blank" class="platform-btn"><i class="fas fa-wave-square"></i> Synthflow</a>
+                    </div>
+                    <div class="agent-tip"><i class="fas fa-lightbulb"></i> Tip: Trillet and Synthflow both have white-label reseller programs so you can brand the product as your own.</div>
                 </div>
-                <div class="agent-links">
-                    <h3>Connect to Real Voice AI:</h3>
-                    <a href="https://bland.ai" target="_blank">Bland.ai</a>
-                    <a href="https://vapi.ai" target="_blank">Vapi.ai</a>
-                    <a href="https://trillet.ai" target="_blank">Trillet.ai</a>
+                <div class="agent-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>Pricing Guide</h3>
+                    <p>What to charge your clients:</p>
+                    <ul class="pricing-list">
+                        <li><span>Chatbot Setup</span><span class="price">$500–$1,200</span></li>
+                        <li><span>AI Receptionist Setup</span><span class="price">$800–$1,500</span></li>
+                        <li><span>Monthly Retainer</span><span class="price">$200–$500/mo</span></li>
+                        <li><span>Full Automation Package</span><span class="price">$2,000–$3,500</span></li>
+                    </ul>
                 </div>
             </div>
         </section>
 
         <section id="emails">
-            <h1>Email Templates</h1>
-            <div class="template-grid" id="templateGrid"></div>
+            <div class="section-header">
+                <h1><i class="fas fa-envelope"></i> Email Templates</h1>
+                <p>Copy-ready cold email scripts for every niche.</p>
+            </div>
+            <div class="email-grid">
+                <div class="email-card">
+                    <div class="email-tag">Law Firms</div>
+                    <h3>Missing calls after 5pm?</h3>
+                    <div class="email-body">
+                        <p>Hi [First Name],</p>
+                        <p>Most law firms lose 2–4 qualified leads every week to after-hours voicemail. I set up AI receptionists that answer calls 24/7, qualify the lead, and book the consultation automatically.</p>
+                        <p>Would it be worth a 10-minute call to see if it fits [Firm Name]?</p>
+                        <p>[Your Name]</p>
+                    </div>
+                    <button onclick="copyEmail(this)"><i class="fas fa-copy"></i> Copy Email</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-tag">Dental / Med Spa</div>
+                    <h3>[Practice Name] – quick question</h3>
+                    <div class="email-body">
+                        <p>Hi [First Name],</p>
+                        <p>I was on your website and noticed there's no live chat or after-hours booking option. Most practices lose 20–30% of new patient inquiries just from slow response time.</p>
+                        <p>I build AI chatbots that capture and book those patients automatically. Want me to show you what it would look like for [Practice Name]?</p>
+                        <p>[Your Name]</p>
+                    </div>
+                    <button onclick="copyEmail(this)"><i class="fas fa-copy"></i> Copy Email</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-tag">HVAC / Roofing</div>
+                    <h3>HVAC companies in [City] – saves 8 hrs/week</h3>
+                    <div class="email-body">
+                        <p>Hi [First Name],</p>
+                        <p>I help HVAC and home service businesses set up AI phone assistants that handle incoming calls, book jobs, and filter emergencies after hours. Most owners save 8+ hours a week and stop missing jobs to competitors.</p>
+                        <p>Can I send you a quick 2-minute demo?</p>
+                        <p>[Your Name]</p>
+                    </div>
+                    <button onclick="copyEmail(this)"><i class="fas fa-copy"></i> Copy Email</button>
+                </div>
+                <div class="email-card">
+                    <div class="email-tag">Real Estate</div>
+                    <h3>Never miss a buyer lead again</h3>
+                    <div class="email-body">
+                        <p>Hi [First Name],</p>
+                        <p>Real estate agents lose deals every week to slow follow-up. I set up AI systems that respond to every new lead in under 60 seconds, qualify them, and book a showing automatically.</p>
+                        <p>Can I show you a quick demo for [Agency Name]?</p>
+                        <p>[Your Name]</p>
+                    </div>
+                    <button onclick="copyEmail(this)"><i class="fas fa-copy"></i> Copy Email</button>
+                </div>
+            </div>
         </section>
     </main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Add Company</h2>
+            <div class="form-group"><label>Company Name</label><input type="text" id="mCompany" placeholder="Smith Law Firm"></div>
+            <div class="form-group"><label>Niche</label>
+                <select id="mNiche">
+                    <option>Law Firm</option><option>Dental</option><option>HVAC</option>
+                    <option>Real Estate</option><option>Auto Shop</option><option>Med Spa</option>
+                    <option>Chiro</option><option>Roofing</option><option>Plumbing</option><option>Other</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Contact Name</label><input type="text" id="mContact" placeholder="John Smith"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="mEmail" placeholder="john@smithlaw.com"></div>
+            <div class="form-group"><label>Phone</label><input type="tel" id="mPhone" placeholder="(414) 555-1234"></div>
+            <div class="form-group"><label>Notes</label><textarea id="mNotes" placeholder="Any notes..."></textarea></div>
+            <div class="modal-btns">
+                <button onclick="saveCompany()"><i class="fas fa-save"></i> Save</button>
+                <button onclick="closeModal()" class="secondary"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
