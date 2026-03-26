@@ -9,9 +9,10 @@ const CONFIG = {
 
 // ==================== NAVIGATION ====================
 function showSection(id, link) {
-    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    var target = document.getElementById(id);
+    if (target) { target.classList.add('active'); target.style.display = 'block'; }
     link.classList.add('active');
 }
 
