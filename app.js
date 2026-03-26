@@ -374,6 +374,14 @@ function copyEmail(btn) {
 // ==================== INITIALIZATION ====================
 window.onload = function() {
     renderCRM();
+        // Setup nav click listeners
+    document.querySelectorAll('nav a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var sectionId = this.dataset.section;
+            showSection(sectionId, this);
+        });
+    });
     console.log('The Next Step Platform Loaded Successfully!');
     console.log('To enable API features:');
     console.log('1. SerpAPI: Get key from https://serpapi.com/');
