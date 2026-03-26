@@ -103,7 +103,7 @@ function filterTable() {
 function exportCSV() {
     let csv = 'Company,Niche,Contact,Email,Phone,Status,Notes\n';
     companies.forEach(c => {
-        csv += `"${c.name}","${c.niche}","${c.contact||''}","${c.email||''}","${c.phone||''}","${c.status}","${c.notes||}"\n`;
+        csv += `"${c.name}","${c.niche}","${c.contact||''}","${c.email||''}","${c.phone||''}","${c.status}","${c.notes||''}"\n`;
     });
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
